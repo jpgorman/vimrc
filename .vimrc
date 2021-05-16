@@ -54,18 +54,15 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'prettier/vim-prettier'
 Plug 'kiddos/malokai.vim'
 Plug 'dikiaap/minimalist'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'tomasiser/vim-code-dark'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'arcticicestudio/nord-vim'
 
 let mapleader=","
 
@@ -73,7 +70,7 @@ let mapleader=","
 call plug#end()
 
 " colors
-colorscheme codedark 
+colorscheme nord
 
 " aireline settings
 let g:airline_theme = 'codedark'
@@ -110,7 +107,10 @@ nnoremap <silent><leader>r :call FindReplace()<cr>
 nnoremap <silent><leader>d :bd<enter>
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
+" Seach - https://pragmaticpineapple.com/improving-vim-workflow-with-fzf/
 nnoremap <C-p> :GFiles<Cr>
+nnoremap <C-g> :Rg<Cr>
 
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
