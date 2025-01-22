@@ -20,6 +20,8 @@
  ```
  snap install ripgrep --classic
  ```
+# Debugger
+https://dev.to/iggredible/debugging-in-vim-with-vimspector-4n0m
 
 # Python Virtual Environment
 Alternative: Virtual Environment (Optional but Recommended)
