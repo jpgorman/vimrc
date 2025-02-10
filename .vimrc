@@ -30,6 +30,14 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+" folding by indent
+set foldmethod=indent
+set nofoldenable
+nnoremap <space> za
+
+" toggle relative line numbers
+nmap <C-L><C-L> :set invrelativenumber<CR>
+
 " Copying
 " Get the defaults that most users want.
 " source $VIMRUNTIME/defaults.vim
@@ -56,7 +64,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'arcticicestudio/nord-vim'
-Plug 'jparise/vim-graphql'
+Plug 'StanAngeloff/php.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'puremourning/vimspector'
 
 let mapleader=","
 
@@ -68,6 +78,7 @@ colorscheme nord
 let g:nord_cursor_line_number_background = 1
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
+let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
 
 " aireline settings
 let g:airline_theme = 'codedark'
@@ -77,6 +88,9 @@ let g:airline_theme = 'codedark'
 "let g:prettier#quickfix_enabled = 0
 "let g:prettier#autoformat = 0
 "autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx,*.js,*.jsx,*.css,*.scss,*.less PrettierAsync
+
+" Sass coc-css
+autocmd FileType scss setl iskeyword+=@-@
 
 " Fuzzy finder ctrl-p
 set runtimepath^=~/.vim/plugged/ctrlp.vim
@@ -102,12 +116,25 @@ nnoremap <silent><leader>w :w<enter>
 nnoremap <silent><leader>b :ls<CR>:buffer<Space>
 nnoremap <silent><leader>r :call FindReplace()<cr>
 nnoremap <silent><leader>d :bd<enter>
+" Open blank buffer
+nnoremap <silent><leader>n :new<enter>
+" Format JSON
+nnoremap <silent><leader>j :%!jq .<enter>
+
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+"nnoremap <silent><leader>dd :call vimspector#Launch()<cr>
+"nnoremap <silent><leader>dq :call vimspector#Reset()<cr>
+"nnoremap <silent><leader>dk :call vimspector#Restart()<cr>
+"nnoremap <silent><leader>dj :call vimspector#StepOver()<cr>
+"nnoremap <silent><leader>dt :call vimspector#ToggleBreakpoint()<cr>
+"nnoremap <silent><leader>dT :call vimspector#ClearBreakpoints()<cr>
+"nnoremap <silent><leader>dc :call vimspector#Continue()<cr>
 
 " Seach - https://pragmaticpineapple.com/improving-vim-workflow-with-fzf/
 nnoremap <C-p> :GFiles<Cr>
 nnoremap <C-g> :Rg<Cr>
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
@@ -165,6 +192,27 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
+
+" Git
+nnoremap <silent> B :call ShowBlameDoc()<CR>
+
+" Formatting
+nnoremap <silent> F :call FormatDoc()<CR>
+
+" Markdown Preview
+nnoremap <silent> M :call MarkdownPreview()<CR>
+
+function! MarkdownPreview()
+  execute 'MarkdownPreviewToggle'
+endfunction
+
+function! FormatDoc()
+  execute 'Format'
+endfunction
+
+function! ShowBlameDoc()
+  execute 'CocCommand git.showBlameDoc'
+endfunction
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
