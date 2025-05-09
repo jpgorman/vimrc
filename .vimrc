@@ -64,9 +64,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'folke/tokyonight.nvim'
+Plug 'itchyny/lightline.vim'
 Plug 'StanAngeloff/php.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'puremourning/vimspector'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 let mapleader=","
 
@@ -102,6 +105,34 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|__regression__|diff
 " Javascript libraries syntax highlighting
 let g:used_javascript_libs = 'react,jquery'
 
+" Treesitter
+let g:coc_enable_highlight = 0
+
+" Tree-sitter Lua config
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "lua", "python", "javascript", "typescript", "go", "rust" },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+
+" ----------------------------
+" General Editor Settings
+" ----------------------------
+syntax on
+filetype plugin indent on
+set number
+set relativenumber
+set tabstop=4 shiftwidth=4 expandtab
+set smartindent
+set clipboard=unnamedplus
+set hidden
+set termguicolors
+set signcolumn=yes
+
 function! FindReplace()
   call inputsave()
   let find = input('Enter thing to replace:')
@@ -120,6 +151,8 @@ nnoremap <silent><leader>d :bd<enter>
 nnoremap <silent><leader>n :new<enter>
 " Format JSON
 nnoremap <silent><leader>j :%!jq .<enter>
+" replace selected text in visual mode
+xnoremap <leader>p "_dP
 
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
@@ -161,6 +194,9 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+hi CocMenuSel ctermbg=white ctermfg=4
+hi CocSearch ctermfg=blue
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
