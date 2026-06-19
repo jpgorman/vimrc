@@ -70,6 +70,7 @@ Plug 'StanAngeloff/php.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'puremourning/vimspector'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master'}
+Plug 'sbdchd/neoformat'
 
 let mapleader=","
 
@@ -243,7 +244,7 @@ function! MarkdownPreview()
 endfunction
 
 function! FormatDoc()
-  execute 'Format'
+  execute 'Neoformat'
 endfunction
 
 function! ShowBlameDoc()
